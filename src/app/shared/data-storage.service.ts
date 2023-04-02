@@ -1,15 +1,13 @@
-import { Injectable } from "@angular/core";
-import { HttpClient, HttpParams } from "@angular/common/http";
-import { exhaustMap, map, take, tap } from "rxjs/operators";
+import { Injectable } from '@angular/core';
+import { HttpClient, HttpParams } from '@angular/common/http';
+import { map, tap, take, exhaustMap } from 'rxjs/operators';
 
-import { Recipe } from "../recipes/recipe.model";
-import { RecipeService } from "../recipes/recipe.service";
-import { AuthService } from "../auth/auth.service";
+import { Recipe } from '../recipes/recipe.model';
+import { RecipeService } from '../recipes/recipe.service';
+import { AuthService } from '../auth/auth.service';
+import { environment } from 'src/environments.backup/environment';
 
-import { environment } from '../../environments/environment';
-
-
-@Injectable({ providedIn: "root" })
+@Injectable({ providedIn: 'root' })
 export class DataStorageService {
   constructor(
     private http: HttpClient,
@@ -21,10 +19,10 @@ export class DataStorageService {
     const recipes = this.recipeService.getRecipes();
     this.http
       .put(
-        environment.recipeApi,
+        environment.recipeApi, 
         recipes
       )
-      .subscribe((response) => {
+      .subscribe(response => {
         console.log(response);
       });
   }
@@ -35,15 +33,15 @@ export class DataStorageService {
         environment.recipeApi
       )
       .pipe(
-        map((recipes) => {
-          return recipes.map((recipe) => {
+        map(recipes => {
+          return recipes.map(recipe => {
             return {
               ...recipe,
-              ingredients: recipe.ingredients ? recipe.ingredients : [],
+              ingredients: recipe.ingredients ? recipe.ingredients : []
             };
           });
         }),
-        tap((recipes) => {
+        tap(recipes => {
           this.recipeService.setRecipes(recipes);
         })
       );
