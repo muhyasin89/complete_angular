@@ -46,4 +46,5 @@ testem.log
 Thumbs.db
 
 /environments/*
+/environments.backup/*
 yarn.lock
