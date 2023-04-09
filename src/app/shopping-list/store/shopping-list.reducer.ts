@@ -1,24 +1,20 @@
 import { Ingredient } from '../../shared/ingredient.model';
 import * as ShoppingListActions from './shopping-list.actions';
 
-export interface AppState {
-  shoppingList: ShoppingState;
-}
-
-export interface ShoppingState {
-  ingredients: Ingredient[],
-  editIngredient: Ingredient,
+export interface State {
+  ingredients: Ingredient[];
+  editedIngredient: Ingredient;
   editedIngredientIndex: number;
 }
 
-const initialState = {
+const initialState: State = {
   ingredients: [new Ingredient('Apples', 5), new Ingredient('Tomatoes', 10)],
-  editIngredient: null,
-  // editedIngredientIndex: -1
+  editedIngredient: null,
+  editedIngredientIndex: -1
 };
 
 export function shoppingListReducer(
-  state: ShoppingState = initialState,
+  state: State = initialState,
   action: ShoppingListActions.ShoppingListActions
 ) {
   switch (action.type) {
@@ -27,53 +23,47 @@ export function shoppingListReducer(
         ...state,
         ingredients: [...state.ingredients, action.payload]
       };
-
     case ShoppingListActions.ADD_INGREDIENTS:
       return {
-        ...state, ingredients: [...state.ingredients, ...action.payload]
-      }
+        ...state,
+        ingredients: [...state.ingredients, ...action.payload]
+      };
     case ShoppingListActions.UPDATE_INGREDIENT:
-      //get update record 
       const ingredient = state.ingredients[state.editedIngredientIndex];
-      const updateIngredient = {
+      const updatedIngredient = {
         ...ingredient,
         ...action.payload
       };
-
       const updatedIngredients = [...state.ingredients];
-
-      updatedIngredients[state.editedIngredientIndex] = updateIngredient;
+      updatedIngredients[state.editedIngredientIndex] = updatedIngredient;
 
       return {
         ...state,
         ingredients: updatedIngredients,
-        editIngredientIndex: -1,
+        editedIngredientIndex: -1,
         editedIngredient: null
-      }
-
+      };
     case ShoppingListActions.DELETE_INGREDIENT:
       return {
         ...state,
-        ingredients: state.ingredients.filter(
-          (ig, IgIndex) => {
-            return IgIndex !== state.editedIngredientIndex;
+        ingredients: state.ingredients.filter((ig, igIndex) => {
+          return igIndex !== state.editedIngredientIndex;
         }),
-        editIngredientIndex: -1,
+        editedIngredientIndex: -1,
         editedIngredient: null
-      }
-
+      };
     case ShoppingListActions.START_EDIT:
       return {
         ...state,
-        editIngredient: action.payload,
-        editedIngredientIndex: {...state.ingredients[action.payload]}
-      }
+        editedIngredientIndex: action.payload,
+        editedIngredient: { ...state.ingredients[action.payload] }
+      };
     case ShoppingListActions.STOP_EDIT:
       return {
         ...state,
-        editIngredient: null,
+        editedIngredient: null,
         editedIngredientIndex: -1
-      }
+      };
     default:
       return state;
   }
