@@ -47,4 +47,6 @@ Thumbs.db
 */environments/
 */environments.backup/
 
-yarn.lock
+*/yarn.lock/
+
+*/__MACOSX/
