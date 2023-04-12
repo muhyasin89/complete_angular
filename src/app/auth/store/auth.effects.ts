@@ -7,8 +7,9 @@ import { HttpClient } from "@angular/common/http";
 import { environment } from "../../../environments/environment";
 
 import * as AuthActions from "./auth.actions";
-import { AuthResponseData, AuthService } from "../auth.service";
+import { AuthService } from "../auth.service";
 import { User } from "../user.model";
+import { AuthResponseData } from "src/app/shared/type/auth-reponse-type";
 
 const handleAuthentication = (
   expiresIn: number,
