@@ -17,6 +17,7 @@ import * as fromApp from './store/app.reducer';
     HttpClientModule,
     AppRoutingModule,
     StoreModule.forRoot(fromApp.appReducer),
+    //StoreModule.forRoot({shoppingList: shoppingListReducer, auth:authReducer}),
     SharedModule,
     CoreModule
   ],
