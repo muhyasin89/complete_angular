@@ -1,14 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { Store } from '@ngrx/store';
-import { map, switchMap, take } from 'rxjs/operators';
+import { map, switchMap } from 'rxjs/operators';
 
 import { Recipe } from '../recipe.model';
 import { RecipeService } from '../recipe.service';
 import * as fromApp from '../../store/app.reducer';
-import * as RecipeActions from '../store/recipe.actions';
-import { Actions, ofType } from '@ngrx/effects';
-import { of } from 'rxjs';
+import * as RecipesActions from '../store/recipe.actions';
 
 @Component({
   selector: 'app-recipe-detail',
@@ -23,8 +21,7 @@ export class RecipeDetailComponent implements OnInit {
     private recipeService: RecipeService,
     private route: ActivatedRoute,
     private router: Router,
-    private store: Store<fromApp.AppState>,
-    private action$: Actions
+    private store: Store<fromApp.AppState>
   ) {}
 
   ngOnInit() {
@@ -59,21 +56,7 @@ export class RecipeDetailComponent implements OnInit {
 
   onDeleteRecipe() {
     // this.recipeService.deleteRecipe(this.id);
-    this.store.select('recipes').pipe(map(recipeState => {
-      return recipeState.recipes;
-    }),
-    switchMap(recipes => {
-      if(recipes.length === 0){
-        this.store.dispatch(new RecipeActions.DeleteRecipe(this.id));
-        return this.action$.pipe(
-          ofType(RecipeActions.SET_RECIPES),
-          take(1)
-        )
-      }else{
-        return of(recipes)
-      }
-    }))
-   
+    this.store.dispatch(new RecipesActions.DeleteRecipe(this.id));
     this.router.navigate(['/recipes']);
   }
 }
