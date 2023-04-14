@@ -44,9 +44,3 @@ testem.log
 # System Files
 .DS_Store
 Thumbs.db
-*/environments/
-*/environments.backup/
-
-*/yarn.lock/
-
-*/__MACOSX/
